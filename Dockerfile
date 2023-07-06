@@ -11,6 +11,14 @@ RUN apt-get install -y php-fpm php-cli php-mysql php-mbstring php-xml php-gd php
 RUN apt-get install -y php-ctype php-curl php-dom php-exif php-fileinfo php-iconv php-intl
 RUN apt-get install -y php-mysqli php-opcache php-phar php-simplexml php-soap php-xml
 RUN apt-get install -y php-xmlreader php-zip php-pdo php-xmlwriter php-tokenizer
+RUN apt-get install -y nodejs npm
+
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
 # Configure certs
 COPY ./config/certs /etc/nginx/certs
